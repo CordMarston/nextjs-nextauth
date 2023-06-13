@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  nextjs:
+    container_name: nextstack
+    build:
+      context: ./
+      target: runner
+    volumes:
+      - .:/nextstack
+    ports:
+      - "2024:2024"
+    environment:
+      NODE_ENV: development
+    networks:
+      - nginx-reverse-proxy-manager_default
+networks:
+  nginx-reverse-proxy-manager_default:
+    external: true
+    driver: bridge
