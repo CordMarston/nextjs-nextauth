@@ -1,7 +1,14 @@
 import NextAuth from "next-auth"
 import FacebookProvider from "next-auth/providers/facebook";
 import GoogleProvider from "next-auth/providers/google";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
 const handler = NextAuth({
+    session: { strategy: "jwt" },
+    adapter: PrismaAdapter(prisma),
     providers: [
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -15,7 +22,6 @@ const handler = NextAuth({
     callbacks: {
         async redirect({ url, baseUrl }) {
             const redirectUrl = url.startsWith('/') ? new URL(url, baseUrl).toString() : url;
-            console.log(`[next-auth] Redirecting to "${redirectUrl}" (resolved from url "${url}" and baseUrl "${baseUrl}")`);
             return redirectUrl;
         },
     }

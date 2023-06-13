@@ -1,4 +1,5 @@
 import './css/globals.css'
+import { NextAuthProvider } from "./providers";
 
 export const metadata = {
   title: 'Next Stack - Cord Marston',
@@ -28,7 +29,7 @@ export default function RootLayout({
         </ul>
       </div>
       <div className="context overflow-auto">
-        {children}
+      <NextAuthProvider>{children}</NextAuthProvider>
       </div>
     </body>
   </html>
